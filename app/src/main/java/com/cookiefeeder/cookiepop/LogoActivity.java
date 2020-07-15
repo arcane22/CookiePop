@@ -24,7 +24,7 @@ public class LogoActivity extends AppCompatActivity
             public void run()
             {
                 mTimer.cancel();
-                Intent intent = new Intent(getApplication(), LoginActivity.class);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
