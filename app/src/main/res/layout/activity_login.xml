@@ -96,7 +96,11 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="로그인" />
+        android:background="#AED581"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
@@ -114,6 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ID/PW 찾기"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -122,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="   I   "
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -130,6 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="회원가입"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
