@@ -13,7 +13,7 @@
         android:layout_height="120dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_loginTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -27,7 +27,7 @@
         android:layout_height="80dp" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/et_login_email"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -45,7 +45,7 @@
         android:layout_height="20dp" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/et_login_password"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"

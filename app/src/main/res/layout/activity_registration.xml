@@ -220,7 +220,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="마케팅 정보 수신 동의 (필수)"
+            android:text="마케팅 정보 수신 동의 (선택)"
             android:textStyle="bold" />
 
         <Space
