@@ -10,26 +10,26 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.engineio.client.transports.WebSocket;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 
+import java.net.URI;
 import java.net.URISyntaxException;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
-    // implementation 'com.github.nkzawa:socket.io-client:0.6.0'
-    // implementation ('io.socket:socket.io-client:1.0.0') {
-    //        exclude group: 'org.json', module: 'json'
-    //    }
     private TextView tv_findIDAndPW, tv_registration;
     private EditText et_login_email, et_login_password;
     private Button loginButton;
     private CheckBox cb_keepLogin;
+
     private Socket mSocket;
+    private URI uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,10 +42,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initData()
     {
-        loginButton = findViewById(R.id.button_login);
-        cb_keepLogin = findViewById(R.id.cb_keep_login);
         tv_findIDAndPW = findViewById(R.id.tv_find_id_and_pw);
         tv_registration = findViewById(R.id.tv_registration);
+        et_login_email = findViewById(R.id.et_login_email);
+        et_login_password = findViewById(R.id.et_login_password);
+        loginButton = findViewById(R.id.button_login);
+        cb_keepLogin = findViewById(R.id.cb_keep_login);
 
         loginButton.setOnClickListener(this);
         cb_keepLogin.setOnClickListener(this);
@@ -57,24 +59,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     {
         try
         {
-            IO.Options options = new IO.Options();
-            options.transports = new String[] { WebSocket.NAME };
-            mSocket = IO.socket("http://125.130.248.10:3001", options);
+            uri = new URI("http://59.11.215.32:3001");
+            mSocket = IO.socket(uri);
             mSocket.on(Socket.EVENT_CONNECT, onConnect);
             mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-            mSocket.connect();
+            mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+            mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         }
         catch(URISyntaxException e)
         {
             e.printStackTrace();
+            Log.d("socket_log", "Server Connection Error");
         }
+        mSocket.connect();
     }
+
     private Emitter.Listener onConnect = new Emitter.Listener()
     {
         @Override
         public void call(Object... args)
         {
-            Log.d("socket", "connected");
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(getApplicationContext(), "Server Connected", Toast.LENGTH_SHORT).show();
+                    Log.d("socket_log", "Connect");
+                }
+            });
         }
     };
     private Emitter.Listener onConnectError = new Emitter.Listener()
@@ -82,7 +95,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void call(Object... args)
         {
-            Log.d("socket", "connection error");
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(getApplicationContext(), "Server Connection Error", Toast.LENGTH_SHORT).show();
+                    Log.d("socket_log", "Connection Error");
+                }
+            });
+        }
+    };
+    private Emitter.Listener onDisconnect = new Emitter.Listener()
+    {
+        @Override
+        public void call(Object... args)
+        {
+            Log.d("socket_log", "disconnect");
         }
     };
 
@@ -93,7 +122,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch(v.getId())
         {
             case R.id.button_login:
-                intent = new Intent(getApplication(), MainActivity.class);
+                String strEmail = et_login_email.getText().toString();
+                String strPassword = et_login_password.getText().toString();
+                if(strEmail.equals(""))
+                    Toast.makeText(this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                else if(strPassword.equals(""))
+                    Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    //intent = new Intent(getApplication(), MainActivity.class);
+                }
                 break;
             case R.id.cb_keep_login:
                 break;

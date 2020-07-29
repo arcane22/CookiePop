@@ -43,7 +43,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress2"
+            android:id="@+id/et_registration_id"
             android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -55,7 +55,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/btn_sendVerificationCode"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -71,7 +71,7 @@
         android:layout_height="30dp" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/et_registration_password"
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -87,7 +87,7 @@
         android:layout_height="30dp" />
 
     <EditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/et_registration_pwconfirm"
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -103,7 +103,7 @@
         android:layout_height="30dp" />
 
     <EditText
-        android:id="@+id/editTextTextPassword4"
+        android:id="@+id/et_registration_name"
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -243,7 +243,7 @@
         android:layout_height="50dp" />
 
     <Button
-        android:id="@+id/button_registration"
+        android:id="@+id/btn_registration"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
