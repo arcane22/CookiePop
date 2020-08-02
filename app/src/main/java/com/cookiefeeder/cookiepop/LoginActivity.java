@@ -3,6 +3,7 @@ package com.cookiefeeder.cookiepop;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,12 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
@@ -65,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
             mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
             mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
+            mSocket.on("signInResult", onSignIn);
         }
         catch(URISyntaxException e)
         {
@@ -74,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSocket.connect();
     }
 
+    // Socket Event Listener
     private Emitter.Listener onConnect = new Emitter.Listener()
     {
         @Override
@@ -114,7 +125,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.d("socket_log", "disconnect");
         }
     };
+    private Emitter.Listener onSignIn = new Emitter.Listener()
+    {
+        @Override
+        public void call(final Object... args)
+        {
+            if((Boolean)args[0])
+            {
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Toast.makeText(getApplicationContext(), "로그인 정보가 잘못되었거나,\n 존재하지 않는 계정입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    };
 
+    // Login Button Listener
     @Override
     public void onClick(View v)
     {
@@ -122,18 +158,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch(v.getId())
         {
             case R.id.button_login:
-                String strEmail = et_login_email.getText().toString();
-                String strPassword = et_login_password.getText().toString();
-                if(strEmail.equals(""))
-                    Toast.makeText(this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                else if(strPassword.equals(""))
-                    Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                else
-                {
-                    //intent = new Intent(getApplication(), MainActivity.class);
-                }
+                signIn(v);
                 break;
             case R.id.cb_keep_login:
+                keepLogin();
                 break;
             case R.id.tv_find_id_and_pw:
                 intent = new Intent(getApplication(), FindUserInfoActivity.class);
@@ -152,5 +180,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 finish();
             }
         }
+    }
+
+    public void signIn(View v)
+    {
+        String id = et_login_email.getText().toString();
+        String pw = et_login_password.getText().toString();
+        String pw_hash = new Crypto().hashing(pw, "sha256");
+        if(id.equals(""))
+        {
+            Snackbar snackbar = Snackbar.make(v, "아이디를 입력해주세요.", Snackbar.LENGTH_SHORT);
+            snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+            snackbar.show();
+            //Toast.makeText(this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+        else if(pw.equals(""))
+        {
+            Snackbar snackbar = Snackbar.make(v, "비밀번호를 입력해주세요.", Snackbar.LENGTH_SHORT);
+            snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+            snackbar.show();
+            //Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Snackbar snackbar = Snackbar.make(v, "로그인 시도중...", Snackbar.LENGTH_SHORT);
+            snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+            snackbar.show();
+            JSONObject jsonObject = new JSONObject();
+            try
+            {
+                jsonObject.put("userID", id);
+                jsonObject.put("userPW", pw_hash);
+                mSocket.emit("signIn", jsonObject);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void keepLogin()
+    {
+
     }
 }
