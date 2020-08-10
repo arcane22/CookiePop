@@ -13,14 +13,17 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".LogoActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
+
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
+
+
         <activity android:name=".CookieActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".FindUserInfoActivity"/>

@@ -13,4 +13,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">#FFFFFFFF</item>
+        <item name="android:textSize">24sp</item>
+
+    </style>
+
 </resources>
