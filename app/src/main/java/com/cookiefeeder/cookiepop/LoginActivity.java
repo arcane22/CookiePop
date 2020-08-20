@@ -1,11 +1,17 @@
 package com.cookiefeeder.cookiepop;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,42 +19,108 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
-
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
+    /** Declaration of Login Activity class fields **/
+    private final int SIGN_IN_SUCCESS = 0;
+    private final int SIGN_IN_WRONG = 1;
+    private final int SIGN_IN_NOT_EXIST = 2;
+    private final int SIGN_IN_FAIL = 3;
+
     private TextView tv_findIDAndPW, tv_registration;
     private EditText et_login_email, et_login_password;
     private Button loginButton;
     private CheckBox cb_keepLogin;
 
-    private Socket mSocket;
-    private URI uri;
+    private NetworkService networkService;
+    private boolean networkServiceBound;
 
+    /* bind service connection */
+    private ServiceConnection mConnection = new ServiceConnection()
+    {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service)
+        {
+            NetworkService.NetworkServiceBinder binder = (NetworkService.NetworkServiceBinder) service;
+            networkService = binder.getService();
+            networkServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name)
+        {
+            networkService = null;
+            networkServiceBound = false;
+        }
+    };
+
+    /* Broadcast Receiver (Activity <- Service)*/
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            int result = intent.getIntExtra("result", SIGN_IN_FAIL);
+            switch(result)
+            {
+                case SIGN_IN_SUCCESS:
+                    Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                    Intent mIntent = new Intent(getApplication(), MainActivity.class);
+                    startActivity(mIntent);
+                    finish();
+                    break;
+                case SIGN_IN_WRONG:
+                    Toast.makeText(getApplicationContext(), "로그인정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                case SIGN_IN_NOT_EXIST:
+                    Toast.makeText(getApplicationContext(), "존재하지 않는 계정입니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                case SIGN_IN_FAIL:
+                    Toast.makeText(getApplicationContext(), "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+
+    /** Override method **/
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initData();
-        initSocket();
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Intent intent = new Intent(this, NetworkService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        unbindService(mConnection);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    }
+
+
+    /** Initialize login activity class fields **/
     private void initData()
     {
         tv_findIDAndPW = findViewById(R.id.tv_find_id_and_pw);
@@ -62,95 +134,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         cb_keepLogin.setOnClickListener(this);
         tv_findIDAndPW.setOnClickListener(this);
         tv_registration.setOnClickListener(this);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("signInResult"));
     }
 
-    private void initSocket()
-    {
-        try
-        {
-            uri = new URI("http://59.11.215.32:3001");
-            mSocket = IO.socket(uri);
-            mSocket.on(Socket.EVENT_CONNECT, onConnect);
-            mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-            mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-            mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
-            mSocket.on("signInResult", onSignIn);
-        }
-        catch(URISyntaxException e)
-        {
-            e.printStackTrace();
-            Log.d("socket_log", "Server Connection Error");
-        }
-        mSocket.connect();
-    }
-
-    // Socket Event Listener
-    private Emitter.Listener onConnect = new Emitter.Listener()
-    {
-        @Override
-        public void call(Object... args)
-        {
-            runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(getApplicationContext(), "Server Connected", Toast.LENGTH_SHORT).show();
-                    Log.d("socket_log", "Connect");
-                }
-            });
-        }
-    };
-    private Emitter.Listener onConnectError = new Emitter.Listener()
-    {
-        @Override
-        public void call(Object... args)
-        {
-            runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(getApplicationContext(), "Server Connection Error", Toast.LENGTH_SHORT).show();
-                    Log.d("socket_log", "Connection Error");
-                }
-            });
-        }
-    };
-    private Emitter.Listener onDisconnect = new Emitter.Listener()
-    {
-        @Override
-        public void call(Object... args)
-        {
-            Log.d("socket_log", "disconnect");
-        }
-    };
-    private Emitter.Listener onSignIn = new Emitter.Listener()
-    {
-        @Override
-        public void call(final Object... args)
-        {
-            if((Boolean)args[0])
-            {
-                Intent intent = new Intent(getApplication(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            else
-            {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        Toast.makeText(getApplicationContext(), "로그인 정보가 잘못되었거나,\n 존재하지 않는 계정입니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-    };
-
-    // Login Button Listener
+    /** UI click Listener **/
     @Override
     public void onClick(View v)
     {
@@ -161,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 signIn(v);
                 break;
             case R.id.cb_keep_login:
-                keepLogin();
+                keepLogin(v);
                 break;
             case R.id.tv_find_id_and_pw:
                 intent = new Intent(getApplication(), FindUserInfoActivity.class);
@@ -182,45 +170,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /** Sign In method (Send Data Activity -> Service) **/
     public void signIn(View v)
     {
         String id = et_login_email.getText().toString();
         String pw = et_login_password.getText().toString();
         String pw_hash = new Crypto().hashing(pw, "sha256");
+
+        Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_SHORT);
+        snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+
         if(id.equals(""))
         {
-            Snackbar snackbar = Snackbar.make(v, "아이디를 입력해주세요.", Snackbar.LENGTH_SHORT);
-            snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+            snackbar.setText("아이디를 입력해주세요.");
             snackbar.show();
             //Toast.makeText(this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
         else if(pw.equals(""))
         {
-            Snackbar snackbar = Snackbar.make(v, "비밀번호를 입력해주세요.", Snackbar.LENGTH_SHORT);
-            snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+            snackbar.setText("비밀번호를 입력해주세요.");
             snackbar.show();
             //Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Snackbar snackbar = Snackbar.make(v, "로그인 시도중...", Snackbar.LENGTH_SHORT);
-            snackbar.setBackgroundTint(Color.parseColor("#AED581"));
-            snackbar.show();
-            JSONObject jsonObject = new JSONObject();
-            try
+            if(networkServiceBound)
             {
-                jsonObject.put("userID", id);
-                jsonObject.put("userPW", pw_hash);
-                mSocket.emit("signIn", jsonObject);
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
+                snackbar.setText("로그인 시도중....");
+                snackbar.show();
+                JSONObject jsonObject = new JSONObject();
+                try
+                {
+                    jsonObject.put("userID", id);
+                    jsonObject.put("userPW", pw_hash);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                networkService.signIn(jsonObject);
             }
         }
     }
 
-    public void keepLogin()
+    public void keepLogin(View v)
     {
 
     }
