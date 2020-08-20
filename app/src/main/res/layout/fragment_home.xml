@@ -34,17 +34,37 @@
             android:layout_width="match_parent"
             android:layout_height="267dp">
 
+            <FrameLayout
+                android:id="@+id/btn_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="225dp"
+                    android:layout_height="match_parent"
+
+                    app:fabSize="normal"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+            </FrameLayout>
+
             <Button
                 android:id="@+id/cookie1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="80dp"
+                android:background="@drawable/button_round"
                 android:text="1"
-                app:layout_constraintBottom_toTopOf="@+id/cookie2"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.702"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.277" />
+                app:layout_constraintVertical_bias="0.15" />
 
             <Button
                 android:id="@+id/cookie2"
@@ -52,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="28dp"
                 android:text="2"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/cookie3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.721"
@@ -62,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.752"
@@ -76,6 +98,7 @@
                 android:layout_marginEnd="138dp"
                 android:layout_marginBottom="44dp"
                 android:text="4"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.421"
@@ -88,6 +111,7 @@
                 android:layout_marginStart="48dp"
                 android:layout_marginBottom="28dp"
                 android:text="5"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/cookie4"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -96,10 +120,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="6"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/cookie5"
-                app:layout_constraintEnd_toStartOf="@+id/cookie1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.278"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.647" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Space
