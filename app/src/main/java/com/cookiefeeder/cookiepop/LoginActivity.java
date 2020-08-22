@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -41,6 +42,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private NetworkService networkService;
     private boolean onNetworkServiceBound;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     /* bind service connection */
     private ServiceConnection mConnection = new ServiceConnection()
     {
@@ -72,6 +76,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case SIGN_IN_SUCCESS:
                     Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                     Intent mIntent = new Intent(getApplication(), MainActivity.class);
+                    if(cb_keepLogin.isChecked())
+                    {
+                        editor.putString("id", et_login_email.getText().toString());
+                        editor.putString("pw", et_login_password.getText().toString());
+                    }
+                    else
+                        editor.clear();
+                    editor.commit();
                     startActivity(mIntent);
                     finish();
                     break;
@@ -98,25 +110,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onStart()
-    {
-        super.onStart();
-        Intent intent = new Intent(this, NetworkService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        unbindService(mConnection);
-    }
-
-    @Override
     protected void onDestroy()
     {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+        unbindService(mConnection);
     }
 
 
@@ -136,6 +134,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_registration.setOnClickListener(this);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("signInResult"));
+        sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        if(sharedPreferences.getString("id", "").length() != 0)
+        {
+            et_login_email.setText(sharedPreferences.getString("id", ""));
+            et_login_password.setText(sharedPreferences.getString("pw", ""));
+            cb_keepLogin.setChecked(true);
+        }
+        Intent intent = new Intent(this, NetworkService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     /** UI click Listener **/

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AuthenticationActivity"></activity>
+        <activity android:name=".TermsActivity"></activity>
+        <activity android:name=".AuthenticationActivity" />
 
         <service
             android:name=".NetworkService"

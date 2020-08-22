@@ -31,7 +31,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private final int SIGN_UP_ALREADY_EXIST = 1;
     private final int SIGN_UP_FAIL = 2;
 
-    private EditText et_id, et_password, et_password_confirm, et_name;
+    private EditText et_id, et_password, et_password_confirm, et_name, et_birthday;
     private Button btn_sendAuthCode, btn_registration;
 
     private NetworkService networkService;
@@ -111,15 +111,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     protected void onStart()
     {
         super.onStart();
-        Intent intent = new Intent(this, NetworkService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        unbindService(mConnection);
     }
 
     @Override
@@ -128,6 +125,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(signUpResultReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(authCodeReceiver);
+        unbindService(mConnection);
     }
 
     /** Initialize class fields **/
@@ -137,6 +135,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         et_password = findViewById(R.id.et_registration_password);
         et_password_confirm = findViewById(R.id.et_registration_pwconfirm);
         et_name = findViewById(R.id.et_registration_name);
+        et_birthday = findViewById(R.id.et_registration_birthday);
 
         btn_sendAuthCode = findViewById(R.id.btn_requestAuthCode);
         btn_registration = findViewById(R.id.btn_registration);
@@ -145,12 +144,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         LocalBroadcastManager.getInstance(this).registerReceiver(signUpResultReceiver, new IntentFilter("signUpResult"));
         LocalBroadcastManager.getInstance(this).registerReceiver(authCodeReceiver, new IntentFilter("authCode"));
+
         isAuthenticated = getIntent().getBooleanExtra("authResult", false);
         et_id.setText(getIntent().getStringExtra("id"));
-        if(isAuthenticated)
-        {
+        if(isAuthenticated) {
             et_id.setEnabled(false);
         }
+
+        Intent intent = new Intent(this, NetworkService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
