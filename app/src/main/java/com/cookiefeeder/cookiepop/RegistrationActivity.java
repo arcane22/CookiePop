@@ -57,7 +57,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
     };
 
-    /* Broadcast Receiver (Activity <- Service) */
+    /* Sign up result Broadcast Receiver (Activity <- Service) */
     private BroadcastReceiver signUpResultReceiver = new BroadcastReceiver()
     {
         @Override
@@ -82,6 +82,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
         }
     };
+    /* server's auth code Broadcast Receiver (Activity <- Service) */
     private BroadcastReceiver authCodeReceiver = new BroadcastReceiver()
     {
         @Override
@@ -90,7 +91,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             String authCode = intent.getStringExtra("code");
             Intent mIntent = new Intent(getApplication(), AuthenticationActivity.class);
             mIntent.putExtra("authCode", authCode);
+            mIntent.putExtra("id", et_id.getText().toString());
             startActivity(mIntent);
+            finish();
         }
     };
 
@@ -143,6 +146,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         LocalBroadcastManager.getInstance(this).registerReceiver(signUpResultReceiver, new IntentFilter("signUpResult"));
         LocalBroadcastManager.getInstance(this).registerReceiver(authCodeReceiver, new IntentFilter("authCode"));
         isAuthenticated = getIntent().getBooleanExtra("authResult", false);
+        et_id.setText(getIntent().getStringExtra("id"));
+        if(isAuthenticated)
+        {
+            et_id.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
     }
 
     @Override

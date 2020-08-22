@@ -96,6 +96,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             Toast.makeText(getApplicationContext(), "인증되었습니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplication(), RegistrationActivity.class);
             intent.putExtra("authResult", true);
+            intent.putExtra("id", getIntent().getStringExtra("id"));
             startActivity(intent);
             finish();
         }
