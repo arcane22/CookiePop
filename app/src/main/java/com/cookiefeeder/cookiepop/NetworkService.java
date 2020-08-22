@@ -59,6 +59,7 @@ public class NetworkService extends Service
                 mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
                 mSocket.on("signInResult", onSignInResult);
                 mSocket.on("signUpResult", onSignUpResult);
+                mSocket.on("sendAuthCodeToClient", onReceiveAuthCode);
             } catch (URISyntaxException e)
             {
                 e.printStackTrace();
@@ -123,6 +124,19 @@ public class NetworkService extends Service
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
+    /** Request Authentication Code to server & re**/
+    public void requestAuthCode(JSONObject jsonObject)
+    {
+        mSocket.emit("authCode", jsonObject);
+    }
+    public void sendAuthCodeToActivity(String code)
+    {
+        Intent intent = new Intent("authCode");
+        intent.putExtra("code", code);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+
 
     /** socket.io connection event listener **/
     private Emitter.Listener onConnect = new Emitter.Listener()
@@ -168,6 +182,15 @@ public class NetworkService extends Service
         {
             int result = (int) args[0];
             sendSignUpResult(result);
+        }
+    };
+    private Emitter.Listener onReceiveAuthCode = new Emitter.Listener()
+    {
+        @Override
+        public void call(Object... args)
+        {
+            String code = (String) args[0];
+            sendAuthCodeToActivity(code);
         }
     };
 }

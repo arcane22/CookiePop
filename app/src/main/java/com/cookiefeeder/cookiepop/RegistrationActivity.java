@@ -32,10 +32,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private final int SIGN_UP_FAIL = 2;
 
     private EditText et_id, et_password, et_password_confirm, et_name;
-    private Button btn_sendVerificationCode, btn_registration;
+    private Button btn_sendAuthCode, btn_registration;
 
     private NetworkService networkService;
-    private boolean networkServiceBound;
+    private boolean onNetworkServiceBound;
+    private boolean isAuthenticated;
 
     /* bind service connection */
     private ServiceConnection mConnection = new ServiceConnection()
@@ -45,19 +46,19 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         {
             NetworkService.NetworkServiceBinder binder = (NetworkService.NetworkServiceBinder) service;
             networkService = binder.getService();
-            networkServiceBound = true;
+            onNetworkServiceBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name)
         {
             networkService = null;
-            networkServiceBound= false;
+            onNetworkServiceBound= false;
         }
     };
 
-    /* Broadcast Receiver (Activity <- Service)*/
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    /* Broadcast Receiver (Activity <- Service) */
+    private BroadcastReceiver signUpResultReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
@@ -79,6 +80,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     Toast.makeText(getApplicationContext(), "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                     break;
             }
+        }
+    };
+    private BroadcastReceiver authCodeReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            String authCode = intent.getStringExtra("code");
+            Intent mIntent = new Intent(getApplication(), AuthenticationActivity.class);
+            mIntent.putExtra("authCode", authCode);
+            startActivity(mIntent);
         }
     };
 
@@ -111,7 +123,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     protected void onDestroy()
     {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(signUpResultReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(authCodeReceiver);
     }
 
     /** Initialize class fields **/
@@ -122,12 +135,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         et_password_confirm = findViewById(R.id.et_registration_pwconfirm);
         et_name = findViewById(R.id.et_registration_name);
 
-        btn_sendVerificationCode = findViewById(R.id.btn_sendVerificationCode);
+        btn_sendAuthCode = findViewById(R.id.btn_requestAuthCode);
         btn_registration = findViewById(R.id.btn_registration);
-        btn_sendVerificationCode.setOnClickListener(this);
+        btn_sendAuthCode.setOnClickListener(this);
         btn_registration.setOnClickListener(this);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("signUpResult"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(signUpResultReceiver, new IntentFilter("signUpResult"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(authCodeReceiver, new IntentFilter("authCode"));
+        isAuthenticated = getIntent().getBooleanExtra("authResult", false);
     }
 
     @Override
@@ -135,11 +150,43 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     {
         switch(v.getId())
         {
-            case R.id.btn_sendVerificationCode:
+            case R.id.btn_requestAuthCode:
+                requestAuthCode(v);
                 break;
             case R.id.btn_registration:
                 signUp(v);
                 break;
+        }
+    }
+
+    /** Make Authentication code **/
+    private void requestAuthCode(View v)
+    {
+        String id = et_id.getText().toString();
+
+        Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_SHORT);
+        snackbar.setBackgroundTint(Color.parseColor("#AED581"));
+
+        if(id.equals(""))
+        {
+            snackbar.setText("아이디를 입력해주세요.");
+            snackbar.show();
+        }
+        else
+        {
+            if(onNetworkServiceBound)
+            {
+                JSONObject jsonObject = new JSONObject();
+                try
+                {
+                    jsonObject.put("userID", id);
+                }
+                catch(JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                networkService.requestAuthCode(jsonObject);
+            }
         }
     }
 
@@ -179,9 +226,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             snackbar.setText("비밀번호를 확인해주세요.");
             snackbar.show();
         }
+        else if(!isAuthenticated)
+        {
+            snackbar.setText("이메일 인증을 해주세요.");
+            snackbar.show();
+        }
         else
         {
-            if(networkServiceBound)
+            if(onNetworkServiceBound)
             {
                 String pw_hash = new Crypto().hashing(pw, "sha256");
                 JSONObject jsonObject = new JSONObject();

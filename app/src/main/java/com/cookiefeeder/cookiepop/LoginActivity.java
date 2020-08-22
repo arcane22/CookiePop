@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox cb_keepLogin;
 
     private NetworkService networkService;
-    private boolean networkServiceBound;
+    private boolean onNetworkServiceBound;
 
     /* bind service connection */
     private ServiceConnection mConnection = new ServiceConnection()
@@ -49,14 +49,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         {
             NetworkService.NetworkServiceBinder binder = (NetworkService.NetworkServiceBinder) service;
             networkService = binder.getService();
-            networkServiceBound = true;
+            onNetworkServiceBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name)
         {
             networkService = null;
-            networkServiceBound = false;
+            onNetworkServiceBound = false;
         }
     };
 
@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         else
         {
-            if(networkServiceBound)
+            if(onNetworkServiceBound)
             {
                 snackbar.setText("로그인 시도중....");
                 snackbar.show();
