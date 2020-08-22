@@ -1,12 +1,8 @@
 package com.cookiefeeder.cookiepop;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +41,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private void initData()
     {
-        tv_authentication_time = findViewById(R.id.tv_authentication_time);
+        tv_authentication_time = findViewById(R.id.tv_show_timer);
         et_authentication_code = findViewById(R.id.et_authentication_code);
         btn_authentication = findViewById(R.id.btn_authentication);
 

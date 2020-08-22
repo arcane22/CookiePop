@@ -15,7 +15,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -31,7 +33,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private final int SIGN_UP_ALREADY_EXIST = 1;
     private final int SIGN_UP_FAIL = 2;
 
+    private TextView tv_agreement1, tv_agreement2, tv_agreement3;
     private EditText et_id, et_password, et_password_confirm, et_name, et_birthday;
+    private CheckBox cb_agreement1, cb_agreement2, cb_agreement3;
     private Button btn_sendAuthCode, btn_registration;
 
     private NetworkService networkService;
@@ -131,14 +135,26 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     /** Initialize class fields **/
     private void initData()
     {
+        tv_agreement1 = findViewById(R.id.tv_agreement1);
+        tv_agreement2 = findViewById(R.id.tv_agreement2);
+        tv_agreement3 = findViewById(R.id.tv_agreement3);
+
         et_id = findViewById(R.id.et_registration_id);
         et_password = findViewById(R.id.et_registration_password);
         et_password_confirm = findViewById(R.id.et_registration_pwconfirm);
         et_name = findViewById(R.id.et_registration_name);
         et_birthday = findViewById(R.id.et_registration_birthday);
 
+        cb_agreement1 = findViewById(R.id.cb_agreement1);
+        cb_agreement2 = findViewById(R.id.cb_agreement2);
+        cb_agreement3 = findViewById(R.id.cb_agreement3);
+
         btn_sendAuthCode = findViewById(R.id.btn_requestAuthCode);
         btn_registration = findViewById(R.id.btn_registration);
+
+        tv_agreement1.setOnClickListener(this);
+        tv_agreement2.setOnClickListener(this);
+        tv_agreement3.setOnClickListener(this);
         btn_sendAuthCode.setOnClickListener(this);
         btn_registration.setOnClickListener(this);
 
@@ -165,6 +181,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v)
     {
+        Intent intent = new Intent(getApplication(), TermsActivity.class);
         switch(v.getId())
         {
             case R.id.btn_requestAuthCode:
@@ -172,6 +189,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.btn_registration:
                 signUp(v);
+                break;
+            case R.id.tv_agreement1:
+                intent.putExtra("agreementNum", TermsActivity.TERMS_AGREEMENT1);
+                startActivity(intent);
+                break;
+            case R.id.tv_agreement2:
+                intent.putExtra("agreementNum", TermsActivity.TERMS_AGREEMENT2);
+                startActivity(intent);
+                break;
+            case R.id.tv_agreement3:
+                intent.putExtra("agreementNum", TermsActivity.TERMS_AGREEMENT3);
+                startActivity(intent);
                 break;
         }
     }
@@ -214,6 +243,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         String pw = et_password.getText().toString();
         String pw_confirm = et_password_confirm.getText().toString();
         String name = et_name.getText().toString();
+        String birthday = et_birthday.getText().toString();
 
         Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_SHORT);
         snackbar.setBackgroundTint(Color.parseColor("#AED581"));
@@ -238,6 +268,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             snackbar.setText("이름을 입력해주세요.");
             snackbar.show();
         }
+        else if(birthday.equals(""))
+        {
+            snackbar.setText("생년월일을 입력해주세요.");
+            snackbar.show();
+        }
         else if(!pw.equals(pw_confirm))
         {
             snackbar.setText("비밀번호를 확인해주세요.");
@@ -246,6 +281,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else if(!isAuthenticated)
         {
             snackbar.setText("이메일 인증을 해주세요.");
+            snackbar.show();
+        }
+        else if(!cb_agreement1.isChecked() || !cb_agreement2.isChecked())
+        {
+            snackbar.setText("필수 약관에 모두 동의해주세요.");
             snackbar.show();
         }
         else
@@ -259,6 +299,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     jsonObject.put("userID", id);
                     jsonObject.put("userPW", pw_hash);
                     jsonObject.put("userName", name);
+                    jsonObject.put("userBirthday", birthday);
                 }
                 catch(JSONException e)
                 {

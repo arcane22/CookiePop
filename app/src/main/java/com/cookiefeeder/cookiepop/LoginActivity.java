@@ -157,9 +157,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.button_login:
                 signIn(v);
                 break;
-            case R.id.cb_keep_login:
-                keepLogin(v);
-                break;
             case R.id.tv_find_id_and_pw:
                 intent = new Intent(getApplication(), FindUserInfoActivity.class);
                 break;
@@ -220,10 +217,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 networkService.signIn(jsonObject);
             }
         }
-    }
-
-    public void keepLogin(View v)
-    {
-
     }
 }
