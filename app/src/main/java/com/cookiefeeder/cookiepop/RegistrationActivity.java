@@ -94,7 +94,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         {
             String authCode = intent.getStringExtra("code");
             Intent mIntent = new Intent(getApplication(), AuthenticationActivity.class);
+
             mIntent.putExtra("authCode", authCode);
+            mIntent.putExtra("ActivityNum", AuthenticationActivity.REGISTRATION_ACTIVITY);
             mIntent.putExtra("id", et_id.getText().toString());
             startActivity(mIntent);
             finish();
@@ -158,6 +160,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         btn_sendAuthCode.setOnClickListener(this);
         btn_registration.setOnClickListener(this);
 
+        Intent intent = new Intent(this, NetworkService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
         LocalBroadcastManager.getInstance(this).registerReceiver(signUpResultReceiver, new IntentFilter("signUpResult"));
         LocalBroadcastManager.getInstance(this).registerReceiver(authCodeReceiver, new IntentFilter("authCode"));
 
@@ -166,9 +171,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         if(isAuthenticated) {
             et_id.setEnabled(false);
         }
-
-        Intent intent = new Intent(this, NetworkService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

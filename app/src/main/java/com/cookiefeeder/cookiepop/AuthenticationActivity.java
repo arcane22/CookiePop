@@ -16,6 +16,9 @@ import java.util.TimerTask;
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener
 {
     /** **/
+    public static final int REGISTRATION_ACTIVITY = 0;
+    public static final int FINDUSERINFO_ACTIVITY = 1;
+
     private TextView tv_authentication_time;
     private EditText et_authentication_code;
     private Button btn_authentication;
@@ -79,18 +82,27 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         switch(v.getId())
         {
             case R.id.btn_authentication:
-                authentication(v);
+                authentication(v, getIntent().getIntExtra("ActivityNum", 0));
                 break;
         }
     }
 
-    private void authentication(View v)
+    private void authentication(View v, int ActivityNum)
     {
         String inputCode = et_authentication_code.getText().toString();
         if(inputCode.equals(serverAuthCode) && timer > 0)
         {
-            Toast.makeText(getApplicationContext(), "인증되었습니다.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplication(), RegistrationActivity.class);
+            Toast.makeText(getApplicationContext(), "이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+            Intent intent = null;
+            switch(ActivityNum)
+            {
+                case REGISTRATION_ACTIVITY:
+                    intent = new Intent(getApplication(), RegistrationActivity.class);
+                    break;
+                case FINDUSERINFO_ACTIVITY:
+                    intent = new Intent(getApplication(), FindUserInfoActivity.class);
+                    break;
+            }
             intent.putExtra("authResult", true);
             intent.putExtra("id", getIntent().getStringExtra("id"));
             startActivity(intent);

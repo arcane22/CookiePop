@@ -60,6 +60,8 @@ public class NetworkService extends Service
                 mSocket.on("signInResult", onSignInResult);
                 mSocket.on("signUpResult", onSignUpResult);
                 mSocket.on("sendAuthCodeToClient", onReceiveAuthCode);
+                mSocket.on("findUserIdResult", onFindUserId);
+                mSocket.on("resetPasswordResult", onResetPassword);
             } catch (URISyntaxException e)
             {
                 e.printStackTrace();
@@ -102,7 +104,8 @@ public class NetworkService extends Service
     /** Sign in method for Login Activity (Send Data Activity <-> Service) **/
     public void signIn(JSONObject jsonObject)
     {
-        mSocket.emit("signIn", jsonObject);
+        if(mSocket.connected())
+            mSocket.emit("signIn", jsonObject);
     }
     public void sendSignInResult(int result)
     {
@@ -115,7 +118,8 @@ public class NetworkService extends Service
     /** Sign up method for Login Activity (Send Data Activity <-> Service) **/
     public void signUp(JSONObject jsonObject)
     {
-        mSocket.emit("signUp", jsonObject);
+        if(mSocket.connected())
+            mSocket.emit("signUp", jsonObject);
     }
     public void sendSignUpResult(int result)
     {
@@ -127,7 +131,8 @@ public class NetworkService extends Service
     /** Request Authentication Code to server & re**/
     public void requestAuthCode(JSONObject jsonObject)
     {
-        mSocket.emit("authCode", jsonObject);
+        if(mSocket.connected())
+            mSocket.emit("authCode", jsonObject);
     }
     public void sendAuthCodeToActivity(String code)
     {
@@ -136,7 +141,31 @@ public class NetworkService extends Service
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
+    /** Find Id method for FindUser Activity (Send Data Activity <-> Service) **/
+    public void findIdFromServer(JSONObject jsonObject)
+    {
+        if(mSocket.connected())
+            mSocket.emit("findId", jsonObject);
+    }
+    public void sendFindIdResult(String userId)
+    {
+        Intent intent = new Intent("findId");
+        intent.putExtra("userId", userId);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
 
+    /** Reset password method for FindUser Activity (Send Data Activity <-> Service) **/
+    public void resetPassword(JSONObject jsonObject)
+    {
+        if(mSocket.connected())
+            mSocket.emit("resetPassword", jsonObject);
+    }
+    public void sendResetPWResult(boolean result)
+    {
+        Intent intent = new Intent("resetPassword");
+        intent.putExtra("result", result);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
 
     /** socket.io connection event listener **/
     private Emitter.Listener onConnect = new Emitter.Listener()
@@ -191,6 +220,24 @@ public class NetworkService extends Service
         {
             String code = (String) args[0];
             sendAuthCodeToActivity(code);
+        }
+    };
+    private Emitter.Listener onFindUserId = new Emitter.Listener()
+    {
+        @Override
+        public void call(Object... args)
+        {
+            String userId = (String) args[0];
+            sendFindIdResult(userId);
+        }
+    };
+    private Emitter.Listener onResetPassword = new Emitter.Listener()
+    {
+        @Override
+        public void call(Object... args)
+        {
+            boolean result = (boolean) args[0];
+            sendResetPWResult(result);
         }
     };
 }

@@ -44,7 +44,7 @@
 
         <EditText
             android:id="@+id/et_registration_id"
-            android:layout_width="250dp"
+            android:layout_width="270dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@android:drawable/editbox_background"
@@ -57,12 +57,12 @@
 
         <Button
             android:id="@+id/btn_requestAuthCode"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="#AED581"
-            android:text="인증번호 전송"
+            android:text="인증번호"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -83,6 +83,7 @@
         android:gravity="center"
         android:hint="비밀번호"
         android:inputType="textPassword"
+        android:maxLength="16"
         android:textSize="14sp" />
 
     <Space
@@ -99,6 +100,7 @@
         android:gravity="center"
         android:hint="비밀번호 확인"
         android:inputType="textPassword"
+        android:maxLength="16"
         android:textSize="14sp" />
 
     <Space
@@ -115,6 +117,7 @@
         android:gravity="center"
         android:hint="이름 (실명)"
         android:inputType="textPersonName"
+        android:maxLength="30"
         android:textSize="14sp" />
 
     <Space

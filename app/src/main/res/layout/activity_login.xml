@@ -54,6 +54,7 @@
         android:gravity="center"
         android:hint="비밀번호"
         android:inputType="textPassword"
+        android:maxLength="16"
         tools:layout_editor_absoluteX="102dp"
         tools:layout_editor_absoluteY="292dp" />
 
