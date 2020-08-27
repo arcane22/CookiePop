@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -71,11 +72,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         public void onReceive(Context context, Intent intent)
         {
             int result = intent.getIntExtra("result", SIGN_IN_FAIL);
+
             switch(result)
             {
                 case SIGN_IN_SUCCESS:
                     Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                     Intent mIntent = new Intent(getApplication(), MainActivity.class);
+
                     if(cb_keepLogin.isChecked())
                     {
                         editor.putString("id", et_login_email.getText().toString());
@@ -152,6 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v)
     {
         Intent intent = null;
+
         switch(v.getId())
         {
             case R.id.button_login:
@@ -164,16 +168,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 intent = new Intent(getApplication(), RegistrationActivity.class);
                 break;
         }
-        if(intent != null)
-        {
-            if(v.getId() == R.id.tv_find_id_and_pw || v.getId() == R.id.tv_registration)
-                startActivity(intent);
-            else
-            {
-                startActivity(intent);
-                finish();
-            }
-        }
+        if(intent != null && v.getId() != R.id.button_login)
+            startActivity(intent);
     }
 
     /** Sign In method (Send Data Activity -> Service) **/

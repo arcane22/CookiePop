@@ -8,11 +8,14 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
@@ -29,6 +32,8 @@ public class NetworkService extends Service
     private IBinder networkServiceBinder = new NetworkServiceBinder();
     private Socket mSocket;
     private URI uri;
+    private Handler handler;
+    private User user;
 
 
     /** Network Service binder class  **/
@@ -87,6 +92,7 @@ public class NetworkService extends Service
         super.onCreate();
         SocketThread socketThread = new SocketThread();
         socketThread.run();
+        handler = new Handler();
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -101,16 +107,29 @@ public class NetworkService extends Service
     }
 
 
+    /** Defining to use runOnUiThread In Service **/
+    private void runOnUiThread(Runnable runnable)
+    {
+        handler.post(runnable);
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+
     /** Sign in method for Login Activity (Send Data Activity <-> Service) **/
     public void signIn(JSONObject jsonObject)
     {
         if(mSocket.connected())
             mSocket.emit("signIn", jsonObject);
     }
-    public void sendSignInResult(int result)
+    public void sendSignInResult(int result, JSONObject userInfo)
     {
         Intent intent = new Intent("signInResult");
         intent.putExtra("result", result);
+        user = new User(userInfo);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -174,6 +193,14 @@ public class NetworkService extends Service
         public void call(Object... args)
         {
             Log.d("socket_log", "connect");
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(getApplicationContext(), "서버에 연결되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     };
     private Emitter.Listener onConnectError = new Emitter.Listener()
@@ -190,6 +217,14 @@ public class NetworkService extends Service
         public void call(Object... args)
         {
             Log.d("socket_log", "disconnect");
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(getApplicationContext(), "서버와의 연결이 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     };
 
@@ -201,7 +236,8 @@ public class NetworkService extends Service
         public void call(Object... args)
         {
             int result = (int) args[0];
-            sendSignInResult(result);
+            JSONObject userInfo = (JSONObject) args[1];
+            sendSignInResult(result, userInfo);
         }
     };
     private Emitter.Listener onSignUpResult = new Emitter.Listener()

@@ -61,7 +61,7 @@
         android:background="@android:drawable/editbox_background"
         android:ems="10"
         android:gravity="center"
-        android:hint="생년월일"
+        android:hint="생년월일(YYYYMMDD)"
         android:inputType="date"
         android:maxLength="8"
         android:textSize="14sp" />
