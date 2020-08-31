@@ -6,15 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="602"
     tools:context=".RegistrationActivity">
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="0dp"
+        android:layout_weight="22" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="30"
         android:orientation="horizontal">
 
         <Space
@@ -34,231 +37,379 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="0dp"
+        android:layout_weight="48" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="39"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
 
         <EditText
             android:id="@+id/et_registration_id"
-            android:layout_width="270dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@android:drawable/editbox_background"
+            android:layout_weight="180"
+            android:backgroundTint="@color/colorMain"
             android:editable="false"
             android:ems="10"
-            android:gravity="center"
+            android:gravity="center|left"
             android:hint="이메일(아이디)"
             android:inputType="textEmailAddress"
             android:textSize="14sp" />
 
         <Button
             android:id="@+id/btn_requestAuthCode"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="#AED581"
+            android:layout_weight="100"
+            android:background="@drawable/requestcode_btn"
             android:text="인증번호"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <EditText
-        android:id="@+id/et_registration_password"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="비밀번호"
-        android:inputType="textPassword"
-        android:maxLength="16"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <EditText
-        android:id="@+id/et_registration_pwconfirm"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="비밀번호 확인"
-        android:inputType="textPassword"
-        android:maxLength="16"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <EditText
-        android:id="@+id/et_registration_name"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="이름 (실명)"
-        android:inputType="textPersonName"
-        android:maxLength="30"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <EditText
-        android:id="@+id/et_registration_birthday"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="생년월일(YYYYMMDD)"
-        android:inputType="date"
-        android:maxLength="8"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="0dp"
+        android:layout_weight="20" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/password_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="39"
+        android:orientation="horizontal"
+        android:weightSum="360">
 
         <Space
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_registration_password"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20" />
+
+    <LinearLayout
+        android:id="@+id/pwcheck_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="39"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_registration_pwconfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20" />
+
+    <LinearLayout
+        android:id="@+id/name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="39"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_registration_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="이름 (실명)"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20" />
+
+    <LinearLayout
+        android:id="@+id/birthday_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="39"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_registration_birthday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="생년월일(YYYYMMDD)"
+            android:inputType="date"
+            android:maxLength="8"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
 
         <CheckBox
             android:id="@+id/cb_agreement1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
             android:buttonTint="#AED581" />
 
         <TextView
             android:id="@+id/tv_agreement1"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="200"
             android:gravity="center_vertical"
             android:text="이용약관 동의 (필수)"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_arrow1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="40"
             android:gravity="center"
             android:text=">"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="horizontal"
+        android:weightSum="360">
 
         <Space
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="40" />
 
         <CheckBox
             android:id="@+id/cb_agreement2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
             android:buttonTint="#AED581" />
 
         <TextView
             android:id="@+id/tv_agreement2"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="200"
             android:gravity="center_vertical"
             android:text="개인정보 취급방침 동의 (필수)"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_arrow2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="40"
             android:gravity="center"
             android:text=">"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="horizontal"
+        android:weightSum="360">
 
         <Space
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="40" />
 
         <CheckBox
             android:id="@+id/cb_agreement3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
             android:buttonTint="#AED581" />
 
         <TextView
             android:id="@+id/tv_agreement3"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="200"
             android:gravity="center_vertical"
             android:text="마케팅 정보 수신 동의 (선택)"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_arrow3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="40"
             android:gravity="center"
             android:text=">"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="0dp"
+        android:layout_weight="40" />
 
-    <Button
-        android:id="@+id/btn_registration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#AED581"
-        android:text="회원가입"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="55"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <Button
+            android:id="@+id/btn_registration"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:background="@drawable/registration_btn"
+            android:text="회원가입"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="57" />
 
 </LinearLayout>

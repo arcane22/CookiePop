@@ -6,47 +6,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="620"
     tools:context=".AuthenticationActivity">
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="0dp"
+        android:layout_weight="40" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
 
         <Space
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="100" />
 
         <TextView
             android:id="@+id/tv_authentication_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="160"
+            android:gravity="center"
             android:text="이메일인증"
             android:textSize="24sp"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100" />
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="0dp"
+        android:layout_weight="20" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30" />
 
         <EditText
             android:id="@+id/et_authentication_code"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="200"
             android:background="@android:drawable/editbox_background"
             android:ems="10"
             android:gravity="center"
@@ -57,46 +77,89 @@
 
         <Button
             android:id="@+id/btn_authentication"
-            android:layout_width="100dp"
-            android:layout_height="32dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="100"
             android:background="#AED581"
             android:text="인증"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30" />
+
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
-
-    <TextView
-        android:id="@+id/tv_auth_timer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="인증 유효시간"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:layout_height="0dp"
+        android:layout_weight="50" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100" />
+
+        <TextView
+            android:id="@+id/tv_auth_timer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="160"
+            android:gravity="center"
+            android:text="인증 유효시간"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_weight="50"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="80" />
 
         <TextView
             android:id="@+id/tv_show_timer"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="200"
             android:background="@android:drawable/editbox_background"
             android:ems="10"
             android:gravity="center"
             android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="80" />
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="340" />
 
 </LinearLayout>

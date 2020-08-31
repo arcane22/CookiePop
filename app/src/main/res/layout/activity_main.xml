@@ -20,13 +20,14 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/mainBottomNavView"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="75dp"
         android:background="#FFFFFF"
         android:textAlignment="textEnd"
         app:itemHorizontalTranslationEnabled="false"
-        app:itemIconSize="24sp"
+        app:itemIconSize="40dp"
         app:itemIconTint="#AED581"
-        app:itemTextColor="#656565"
+        app:labelVisibilityMode="unlabeled"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -6,21 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="620"
     tools:context=".FindUserInfoActivity">
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="0dp"
+        android:layout_weight="50" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        android:orientation="horizontal"
+        android:weightSum="360">
 
         <Space
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="30" />
 
         <TextView
             android:id="@+id/tv_findUserInfo_title"
@@ -34,66 +38,129 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
-
-    <EditText
-        android:id="@+id/et_findUserInfo_name"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="이름(실명)"
-        android:inputType="textPersonName"
-        android:maxLength="30"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <EditText
-        android:id="@+id/et_findUserInfo_birthday"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="생년월일(YYYYMMDD)"
-        android:inputType="date"
-        android:maxLength="8"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <Button
-        android:id="@+id/btn_findId"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@color/colorMain"
-        android:text="아이디찾기"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="0dp"
+        android:layout_weight="20" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
 
         <Space
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_findUserInfo_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="이름(실명)"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_findUserInfo_birthday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="생년월일(YYYYMMDD)"
+            android:inputType="date"
+            android:maxLength="8"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60" />
+
+        <Button
+            android:id="@+id/btn_findId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="240"
+            android:background="@drawable/registration_btn"
+            android:text="아이디찾기"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30" />
 
         <TextView
             android:id="@+id/tv_findUserInfo_title2"
@@ -107,90 +174,165 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="0dp"
+        android:layout_weight="20" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
 
         <EditText
             android:id="@+id/et_findUserInfo_id"
-            android:layout_width="270dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@android:drawable/editbox_background"
+            android:layout_weight="180"
+            android:backgroundTint="@color/colorMain"
             android:ems="10"
-            android:gravity="center"
+            android:gravity="center|left"
             android:hint="아이디(이메일)"
             android:inputType="textPersonName"
             android:textSize="14sp" />
 
         <Button
             android:id="@+id/btn_findUserInfo_auth"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="100"
             android:background="@color/colorMain"
             android:gravity="center|center_vertical"
             android:text="인증번호"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="0dp"
+        android:layout_weight="10" />
 
-    <EditText
-        android:id="@+id/et_findUserInfo_pw"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="새로운 비밀번호"
-        android:inputType="textPassword"
-        android:maxLength="16"
-        android:textSize="14sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_findUserInfo_pw"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="새로운 비밀번호"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="0dp"
+        android:layout_weight="10" />
 
-    <EditText
-        android:id="@+id/et_findUserInfo_pwConfirm"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="비밀번호 확인"
-        android:inputType="textPassword"
-        android:maxLength="16"
-        android:textSize="14sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+
+        <EditText
+            android:id="@+id/et_findUserInfo_pwConfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="280"
+            android:backgroundTint="@color/colorMain"
+            android:ems="10"
+            android:gravity="center|left"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="0dp"
+        android:layout_weight="20" />
 
-    <Button
-        android:id="@+id/btn_resetPassword"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@color/colorMain"
-        android:text="비밀번호 설정"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:orientation="horizontal"
+        android:weightSum="360">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60" />
+
+        <Button
+            android:id="@+id/btn_resetPassword"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="240"
+            android:background="@drawable/registration_btn"
+            android:text="비밀번호 설정"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60" />
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="0dp"
+        android:layout_weight="80" />
 
 </LinearLayout>

@@ -7,8 +7,8 @@
         android:title="@string/bottom_menu_camera" />
     <item
         android:id="@+id/bottom_menu_home"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="@string/bottom_menu_home" />
+        android:icon="@drawable/ic_bottom_home"
+        />
     <item
         android:id="@+id/bottom_menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"
