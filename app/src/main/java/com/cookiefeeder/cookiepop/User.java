@@ -35,8 +35,6 @@ public class User
             cookieTimeList.add(userInfo.getString("user_cookieTime2"));
             cookieTimeList.add(userInfo.getString("user_cookieTime3"));
             cookieTimeList.add(userInfo.getString("user_cookieTime4"));
-            cookieTimeList.add(userInfo.getString("user_cookieTime5"));
-            cookieTimeList.add(userInfo.getString("user_cookieTime6"));
         }
         catch(JSONException e)
         {
