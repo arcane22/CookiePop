@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     private Animation fab_open, fab_close, fab_small, fab_big;
     private Boolean isFabOpen = false;
     private FloatingActionButton mainFab;
-    private Button btn_cookie1, btn_cookie2, btn_cookie3, btn_cookie4,  btn_cookie5, btn_cookie6;
+    private Button btn_cookie1, btn_cookie2, btn_cookie3, btn_cookie4;
     private FrameLayout btn_layout;
 
     @Override
@@ -48,15 +48,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         btn_cookie2 = root.findViewById(R.id.btn_cookie2);
         btn_cookie3 = root.findViewById(R.id.btn_cookie3);
         btn_cookie4 = root.findViewById(R.id.btn_cookie4);
-        btn_cookie5 = root.findViewById(R.id.btn_cookie5);
-        btn_cookie6 = root.findViewById(R.id.btn_cookie6);
 
         btn_cookie1.setOnClickListener(this);
         btn_cookie2.setOnClickListener(this);
         btn_cookie3.setOnClickListener(this);
         btn_cookie4.setOnClickListener(this);
-        btn_cookie5.setOnClickListener(this);
-        btn_cookie6.setOnClickListener(this);
     }
 
     @Override
@@ -77,12 +73,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             case R.id.btn_cookie4:
                 intent.putExtra("cookieNum", CookieActivity.COOKIE_FOURTH);
                 break;
-            case R.id.btn_cookie5:
-                intent.putExtra("cookieNum", CookieActivity.COOKIE_FIFTH);
-                break;
-            case R.id.btn_cookie6:
-                intent.putExtra("cookieNum", CookieActivity.COOKIE_SIXTH);
-                break;
             case R.id.fab:
                 btnAnimation();
                 break;
@@ -101,14 +91,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             btn_cookie2.startAnimation(fab_close);
             btn_cookie3.startAnimation(fab_close);
             btn_cookie4.startAnimation(fab_close);
-            btn_cookie5.startAnimation(fab_close);
-            btn_cookie6.startAnimation(fab_close);
+
             btn_cookie1.setClickable(false);
             btn_cookie2.setClickable(false);
             btn_cookie3.setClickable(false);
             btn_cookie4.setClickable(false);
-            btn_cookie5.setClickable(false);
-            btn_cookie6.setClickable(false);
+
             isFabOpen = false;
         }
         else
@@ -119,14 +107,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             btn_cookie2.startAnimation(fab_open);
             btn_cookie3.startAnimation(fab_open);
             btn_cookie4.startAnimation(fab_open);
-            btn_cookie5.startAnimation(fab_open);
-            btn_cookie6.startAnimation(fab_open);
+
             btn_cookie1.setClickable(true);
             btn_cookie2.setClickable(true);
             btn_cookie3.setClickable(true);
             btn_cookie4.setClickable(true);
-            btn_cookie5.setClickable(true);
-            btn_cookie6.setClickable(true);
+
             isFabOpen = true;
         }
     }

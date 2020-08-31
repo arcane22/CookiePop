@@ -23,8 +23,8 @@ import java.util.Date;
 
 public class CookieActivity extends AppCompatActivity implements View.OnClickListener
 {
-    public static final int COOKIE_FIRST = 0, COOKIE_SECOND = 1, COOKIE_THIRD = 2;
-    public static final int COOKIE_FOURTH = 3, COOKIE_FIFTH = 4, COOKIE_SIXTH = 5;
+    public static final int COOKIE_FIRST = 0, COOKIE_SECOND = 1;
+    public static final int COOKIE_THIRD = 2, COOKIE_FOURTH = 3;
     private int currentCookieNum;
     private String year, month, day, hour, minutes;
 
@@ -108,12 +108,6 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case COOKIE_FOURTH:
                 tv_cookie_number.setText("네번째 쿠키");
-                break;
-            case COOKIE_FIFTH:
-                tv_cookie_number.setText("다섯번째 쿠키");
-                break;
-            case COOKIE_SIXTH:
-                tv_cookie_number.setText("여섯번째 쿠키");
                 break;
         }
     }
