@@ -129,7 +129,8 @@ public class NetworkService extends Service
     {
         Intent intent = new Intent("signInResult");
         intent.putExtra("result", result);
-        user = new User(userInfo);
+        if(userInfo != null)
+            user = new User(userInfo);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -186,6 +187,13 @@ public class NetworkService extends Service
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
+    /** **/
+    public void setCookieTime(int cookieNum, String time)
+    {
+        if(mSocket.connected())
+            mSocket.emit("setCookieTime", cookieNum, time);
+    }
+
     /** socket.io connection event listener **/
     private Emitter.Listener onConnect = new Emitter.Listener()
     {
@@ -236,7 +244,9 @@ public class NetworkService extends Service
         public void call(Object... args)
         {
             int result = (int) args[0];
-            JSONObject userInfo = (JSONObject) args[1];
+            JSONObject userInfo = null;
+            if(args.length == 2)
+                userInfo = (JSONObject) args[1];
             sendSignInResult(result, userInfo);
         }
     };

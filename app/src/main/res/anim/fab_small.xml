@@ -8,7 +8,6 @@
         android:interpolator="@android:anim/linear_interpolator"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toXScale="0.3"
-        android:toYScale="0.3" />
-
+        android:toXScale="0.5"
+        android:toYScale="0.5" />
 </set>

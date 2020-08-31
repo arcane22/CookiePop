@@ -216,12 +216,7 @@ public class FindUserInfoActivity extends AppCompatActivity implements View.OnCl
         Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_SHORT);
         snackbar.setBackgroundTint(Color.parseColor("#AED581"));
 
-        if(isPwAuthenticated)
-        {
-            snackbar.setText("인증 완료된 이메일 주소입니다.");
-            snackbar.show();
-        }
-        else if(id.equals(""))
+        if(id.equals(""))
         {
             snackbar.setText("아이디를 입력해주세요.");
             snackbar.show();
@@ -262,7 +257,12 @@ public class FindUserInfoActivity extends AppCompatActivity implements View.OnCl
         Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_SHORT);
         snackbar.setBackgroundTint(Color.parseColor("#AED581"));
 
-        if(id.equals(""))
+        if(isPwAuthenticated)
+        {
+            snackbar.setText("인증 완료된 이메일 주소입니다.");
+            snackbar.show();
+        }
+        else if(id.equals(""))
         {
             snackbar.setText("아이디를 입력해주세요.");
             snackbar.show();

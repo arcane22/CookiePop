@@ -2,17 +2,23 @@ package com.cookiefeeder.cookiepop;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User implements Parcelable
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public class User
 {
     private String uid;
     private String userID;
     private String userName;
     private String userBirthday;
     private String userSignUpDate;
+    private String userMachineId;
+    private ArrayList<String> cookieTimeList;
 
     public User(JSONObject userInfo)
     {
@@ -21,10 +27,16 @@ public class User implements Parcelable
             uid = userInfo.getString("uid");
             userID = userInfo.getString("user_id");
             userName = userInfo.getString("user_name");
-            String birthdayStr = userInfo.getString("user_birthday");
-            userBirthday = birthdayStr.substring(0, 4) + birthdayStr.substring(5, 7) + birthdayStr.substring(8, 10);
-            String signUpStr = userInfo.getString("user_signupdate");
-            userSignUpDate = signUpStr.substring(0, 4) + signUpStr.substring(5, 7) + signUpStr.substring(8, 10);
+            userBirthday = userInfo.getString("user_birthday");
+            userSignUpDate = userInfo.getString("user_signupdate");
+            userMachineId = userInfo.getString("user_machineId");
+            cookieTimeList = new ArrayList<>();
+            cookieTimeList.add(userInfo.getString("user_cookieTime1"));
+            cookieTimeList.add(userInfo.getString("user_cookieTime2"));
+            cookieTimeList.add(userInfo.getString("user_cookieTime3"));
+            cookieTimeList.add(userInfo.getString("user_cookieTime4"));
+            cookieTimeList.add(userInfo.getString("user_cookieTime5"));
+            cookieTimeList.add(userInfo.getString("user_cookieTime6"));
         }
         catch(JSONException e)
         {
@@ -41,45 +53,8 @@ public class User implements Parcelable
         this.userSignUpDate = userSignUpDate;
     }
 
-    protected User(Parcel in)
-    {
-        uid = in.readString();
-        userID = in.readString();
-        userName = in.readString();
-        userBirthday = in.readString();
-        userSignUpDate = in.readString();
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>()
-    {
-        @Override
-        public User createFromParcel(Parcel in)
-        {
-            return new User(in);
-        }
-        @Override
-        public User[] newArray(int size)
-        {
-            return new User[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags)
-    {
-        dest.writeString(uid);
-        dest.writeString(userID);
-        dest.writeString(userName);
-        dest.writeString(userBirthday);
-        dest.writeString(userSignUpDate);
-    }
-
-    /** Getter & Setter for class fields **/    public String getUID() { return uid; }
+    /** Getter & Setter for class fields **/
+    public String getUID() { return uid; }
     public void setUID(String uid) { this.uid = uid; }
 
     public String getUserID() { return userID; }
@@ -93,4 +68,10 @@ public class User implements Parcelable
 
     public String getUserSignUpDate() { return userSignUpDate; }
     public void setUserSignUpDate(String userSignUpDate) { this.userSignUpDate = userSignUpDate; }
+
+    public String getUserMachineId() { return userMachineId; }
+    public void setUserMachineId(String userMachineId) { this.userMachineId = userMachineId; }
+
+    public ArrayList<String> getCookieTimeList() { return cookieTimeList; }
+    public void setCookieTimeList(ArrayList<String> cookieTimeList) { this.cookieTimeList = cookieTimeList; }
 }
