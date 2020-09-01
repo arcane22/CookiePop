@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView bottomNavigationView;
     private NetworkService networkService;
     private boolean onNetworkServiceBound;
-    private User user;
 
     private ServiceConnection mConnection = new ServiceConnection()
     {
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity
         {
             NetworkService.NetworkServiceBinder binder = (NetworkService.NetworkServiceBinder) service;
             networkService = binder.getService();
-            user = networkService.getUser();
             onNetworkServiceBound = true;
         }
 
@@ -121,5 +119,25 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+    }
+
+    public User getUserFromService()
+    {
+        if(onNetworkServiceBound)
+            return networkService.getUser();
+        return null;
+    }
+
+
+    public void logOut()
+    {
+        if(onNetworkServiceBound)
+        {
+            Toast.makeText(getApplicationContext(), "로그아웃 하였습니다.", Toast.LENGTH_SHORT).show();
+            networkService.setUser(null);
+            Intent intent = new Intent(getApplication(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

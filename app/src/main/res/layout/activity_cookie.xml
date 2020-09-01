@@ -104,6 +104,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:hint="메모 ex)쿠키 헤어볼 영양제"
+            android:imeOptions="actionDone"
+            android:maxLength="40"
+            android:singleLine="true"
             android:textSize="18sp" />
 
         <Switch

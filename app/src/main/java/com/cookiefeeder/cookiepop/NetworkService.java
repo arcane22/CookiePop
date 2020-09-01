@@ -117,6 +117,7 @@ public class NetworkService extends Service
     {
         return user;
     }
+    public void setUser(User user) { this.user = user; }
 
 
     /** Sign in method for Login Activity (Send Data Activity <-> Service) **/
@@ -191,7 +192,7 @@ public class NetworkService extends Service
     public void setCookieTime(int cookieNum, String time)
     {
         if(mSocket.connected())
-            mSocket.emit("setCookieTime", cookieNum, time);
+            mSocket.emit("setCookieTime", cookieNum, time, user.getUserID());
     }
 
     /** socket.io connection event listener **/

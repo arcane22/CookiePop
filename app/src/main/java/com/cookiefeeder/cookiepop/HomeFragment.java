@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     private Animation fab_open, fab_close, fab_small, fab_big;
     private Boolean isFabOpen = false;
     private FloatingActionButton mainFab;
-    private Button btn_cookie1, btn_cookie2, btn_cookie3, btn_cookie4;
+    private Button btn_cookie1, btn_cookie2, btn_cookie3;
     private FrameLayout btn_layout;
 
     @Override
@@ -47,12 +47,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         btn_cookie1 = root.findViewById(R.id.btn_cookie1);
         btn_cookie2 = root.findViewById(R.id.btn_cookie2);
         btn_cookie3 = root.findViewById(R.id.btn_cookie3);
-        btn_cookie4 = root.findViewById(R.id.btn_cookie4);
 
         btn_cookie1.setOnClickListener(this);
         btn_cookie2.setOnClickListener(this);
         btn_cookie3.setOnClickListener(this);
-        btn_cookie4.setOnClickListener(this);
     }
 
     @Override
@@ -69,9 +67,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.btn_cookie3:
                 intent.putExtra("cookieNum", CookieActivity.COOKIE_THIRD);
-                break;
-            case R.id.btn_cookie4:
-                intent.putExtra("cookieNum", CookieActivity.COOKIE_FOURTH);
                 break;
             case R.id.fab:
                 btnAnimation();
@@ -90,12 +85,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             btn_cookie1.startAnimation(fab_close);
             btn_cookie2.startAnimation(fab_close);
             btn_cookie3.startAnimation(fab_close);
-            btn_cookie4.startAnimation(fab_close);
 
             btn_cookie1.setClickable(false);
             btn_cookie2.setClickable(false);
             btn_cookie3.setClickable(false);
-            btn_cookie4.setClickable(false);
 
             isFabOpen = false;
         }
@@ -106,12 +99,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             btn_cookie1.startAnimation(fab_open);
             btn_cookie2.startAnimation(fab_open);
             btn_cookie3.startAnimation(fab_open);
-            btn_cookie4.startAnimation(fab_open);
 
             btn_cookie1.setClickable(true);
             btn_cookie2.setClickable(true);
             btn_cookie3.setClickable(true);
-            btn_cookie4.setClickable(true);
 
             isFabOpen = true;
         }
