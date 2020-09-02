@@ -120,19 +120,19 @@
         android:layout_height="0dp"
         android:layout_weight="40"
         android:orientation="horizontal"
-        android:weightSum="360">
+        android:weightSum="300">
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="60" />
+            android:layout_weight="50" />
 
         <Button
             android:id="@+id/btn_findId"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="240"
+            android:layout_weight="200"
             android:background="@drawable/registration_btn"
             android:text="아이디찾기"
             android:textColor="#FFFFFF"
@@ -142,7 +142,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="60" />
+            android:layout_weight="50" />
     </LinearLayout>
 
     <Space
@@ -209,7 +209,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="100"
-            android:background="@color/colorMain"
+            android:background="@drawable/registration_btn"
             android:gravity="center|center_vertical"
             android:text="인증번호"
             android:textColor="#FFFFFF"

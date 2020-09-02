@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity
@@ -139,5 +140,19 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+    }
+
+    public boolean resetCookieRoom()
+    {
+        if(onNetworkServiceBound)
+        {
+            networkService.resetCookieRoom();
+            ArrayList<String> arrayList = new ArrayList<>();
+            for(int i = 0; i < 3; i++)
+                arrayList.add("null");
+            networkService.getUser().setCookieTimeList(arrayList);
+            return true;
+        }
+        return false;
     }
 }

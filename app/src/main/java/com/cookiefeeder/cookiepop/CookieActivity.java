@@ -2,15 +2,15 @@ package com.cookiefeeder.cookiepop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -33,11 +33,11 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
     private int currentCookieNum;
     private String year, month, day, hour, minutes;
 
-    private TextView tv_cookie_todayDate, tv_cookie_number;
+    private TextView tv_cookie_todayDate, tv_cookie_number, tv_cookie_showCookieTime;
     private EditText et_cookie_memo;
     private NumberPicker datePicker;
     private TimePicker timePicker;
-    private Button btn_cancel, btn_confirm;
+    private Button btn_cancel, btn_confirm, btn_startCookie;
 
     private NetworkService networkService;
     private boolean onNetworkServiceBound;
@@ -54,6 +54,9 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
             NetworkService.NetworkServiceBinder binder = (NetworkService.NetworkServiceBinder) service;
             networkService = binder.getService();
             onNetworkServiceBound = true;
+            String cookieStr = networkService.getUser().getCookieTimeList().get(currentCookieNum);
+            if(cookieStr.equals("null")) cookieStr = "없음.";
+            tv_cookie_showCookieTime.setText("설정된 쿠키시간 : " + cookieStr);
         }
 
         @Override
@@ -86,10 +89,14 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
     /** Initialize class fields **/
     private void initData()
     {
+        Intent intent = new Intent(getApplication(), NetworkService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         currentCookieNum = getIntent().getIntExtra("cookieNum", 0);
 
         tv_cookie_todayDate = findViewById(R.id.tv_cookie_todayDate);
         tv_cookie_number = findViewById(R.id.tv_cookie_number);
+        tv_cookie_showCookieTime = findViewById(R.id.tv_cookie_showCookieTime);
+
         et_cookie_memo = findViewById(R.id.et_cookie_memo);
         et_cookie_memo.setOnEditorActionListener(this);
 
@@ -98,11 +105,10 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
 
         btn_cancel = findViewById(R.id.btn_cookie_cancel);
         btn_confirm = findViewById(R.id.btn_cookie_confirm);
+        btn_startCookie = findViewById(R.id.btn_executeCookie);
         btn_cancel.setOnClickListener(this);
         btn_confirm.setOnClickListener(this);
-
-        Intent intent = new Intent(getApplication(), NetworkService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        btn_startCookie.setOnClickListener(this);
 
         sharedPreferences = getSharedPreferences("cookieMemo", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -224,6 +230,9 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_cookie_confirm:
                 saveCookieTime(v);
                 break;
+            case R.id.btn_executeCookie:
+                executeCookie();
+                break;
         }
     }
 
@@ -278,10 +287,39 @@ public class CookieActivity extends AppCompatActivity implements View.OnClickLis
             networkService.setCookieTime(currentCookieNum, pickerDateStr);
             networkService.getUser().getCookieTimeList().set(currentCookieNum, pickerDateStr);
             Toast.makeText(getApplicationContext(), "시간이 설정되었습니다.", Toast.LENGTH_SHORT).show();
+            tv_cookie_showCookieTime.setText("설정된 쿠키시간 : " + pickerDateStr);
         }
         else
         {
             Toast.makeText(getApplicationContext(), "현재시간 보다 이후의 시간을 설정해주세요.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void executeCookie()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("쿠키 즉시 실행");
+        builder.setMessage("쿠키함을 즉시 실행시키고 해당 쿠키 시간을 초기화합니다.");
+        builder.setIcon(android.R.drawable.ic_menu_revert);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
+                if(onNetworkServiceBound)
+                {
+                    networkService.executeCookie(currentCookieNum);
+                    tv_cookie_showCookieTime.setText("설정된 쿠키시간 : 없음.");
+                    Toast.makeText(getApplicationContext(), "실행되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
+                Toast.makeText(getApplicationContext(), "취소하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
     }
 }

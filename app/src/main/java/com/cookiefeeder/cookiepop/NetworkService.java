@@ -195,6 +195,20 @@ public class NetworkService extends Service
             mSocket.emit("setCookieTime", cookieNum, time, user.getUserID());
     }
 
+    /** **/
+    public void resetCookieRoom()
+    {
+        if(mSocket.connected())
+            mSocket.emit("resetCookieRoom", user.getUserID());
+    }
+
+    /** **/
+    public void executeCookie(int currCookieNum)
+    {
+        if(mSocket.connected())
+            mSocket.emit("executeCookie", currCookieNum, user.getUserID());
+    }
+
     /** socket.io connection event listener **/
     private Emitter.Listener onConnect = new Emitter.Listener()
     {

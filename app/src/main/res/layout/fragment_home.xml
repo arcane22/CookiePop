@@ -15,7 +15,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="70dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     android:layout_width="250dp"
                     android:layout_height="match_parent"
 
-                    android:src="@android:drawable/ic_menu_add"
+                    android:src="@drawable/cookiepop"
                     app:backgroundTint="@color/colorMain"
                     app:fabSize="normal"
                     app:maxImageSize="150dp" />
@@ -56,9 +56,9 @@
 
             <Button
                 android:id="@+id/btn_cookie1"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMain"
+                android:background="@drawable/registration_btn"
                 android:text="1번쿠키"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -73,9 +73,9 @@
 
             <Button
                 android:id="@+id/btn_cookie2"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMain"
+                android:background="@drawable/registration_btn"
                 android:text="2번쿠키"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -90,9 +90,9 @@
 
             <Button
                 android:id="@+id/btn_cookie3"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMain"
+                android:background="@drawable/registration_btn"
                 android:text="3번쿠키"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -109,7 +109,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/textView"
@@ -122,7 +122,39 @@
 
         <Space
             android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_resetCookieRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/registration_btn"
+                android:gravity="center"
+                android:text="쿠키함 위치 초기화"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </FrameLayout>

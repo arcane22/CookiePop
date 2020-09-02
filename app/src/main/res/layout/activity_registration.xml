@@ -72,7 +72,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="100"
-            android:background="@drawable/requestcode_btn"
+            android:background="@drawable/registration_btn"
             android:text="인증번호"
             android:textColor="#FFFFFF"
             android:textSize="12sp"

@@ -1,5 +1,7 @@
 package com.cookiefeeder.cookiepop;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,7 +23,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     private Animation fab_open, fab_close, fab_small, fab_big;
     private Boolean isFabOpen = false;
     private FloatingActionButton mainFab;
-    private Button btn_cookie1, btn_cookie2, btn_cookie3;
+    private Button btn_cookie1, btn_cookie2, btn_cookie3, btn_resetCookieRoom;
     private FrameLayout btn_layout;
 
     @Override
@@ -47,10 +49,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         btn_cookie1 = root.findViewById(R.id.btn_cookie1);
         btn_cookie2 = root.findViewById(R.id.btn_cookie2);
         btn_cookie3 = root.findViewById(R.id.btn_cookie3);
+        btn_resetCookieRoom = root.findViewById(R.id.btn_resetCookieRoom);
 
         btn_cookie1.setOnClickListener(this);
         btn_cookie2.setOnClickListener(this);
         btn_cookie3.setOnClickListener(this);
+        btn_resetCookieRoom.setOnClickListener(this);
     }
 
     @Override
@@ -68,11 +72,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener
             case R.id.btn_cookie3:
                 intent.putExtra("cookieNum", CookieActivity.COOKIE_THIRD);
                 break;
+            case R.id.btn_resetCookieRoom:
+                resetCookieRoom();
+                break;
             case R.id.fab:
                 btnAnimation();
                 break;
         }
-        if(v.getId() != R.id.fab)
+        if(v.getId() != R.id.fab && v.getId() != R.id.btn_resetCookieRoom)
             startActivity(intent);
     }
 
@@ -106,5 +113,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener
 
             isFabOpen = true;
         }
+    }
+
+    private void resetCookieRoom()
+    {
+        final MainActivity mainActivity = (MainActivity) getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("쿠키함 첫번째로 이동");
+        builder.setMessage("쿠키함을 첫번째로 이동시키고 모든 쿠키 시간을 초기화합니다.");
+        builder.setIcon(android.R.drawable.ic_menu_revert);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
+                if(mainActivity.resetCookieRoom())
+                    Toast.makeText(getContext(), "초기화되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
+                Toast.makeText(getContext(), "취소하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
     }
 }
