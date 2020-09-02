@@ -11,28 +11,43 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:usesCleartextTraffic="true"
-        android:screenOrientation="portrait">
-        <activity android:name=".TermsActivity"></activity>
-        <activity android:name=".AuthenticationActivity" />
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".TermsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AuthenticationActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".NetworkService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".LogoActivity">
+        <activity
+            android:name=".LogoActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CookieActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".FindUserInfoActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CookieActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RegistrationActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FindUserInfoActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
