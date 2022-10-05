@@ -37,23 +37,20 @@ class Database {
      * 
      * @returns {mysql2.Connection}
      */
-    async getConnection() {
+    async getConnection(retryCnt = 0) {
         if(this.#poll == null) return null;
-
+        
         let connection = null;
-        let retryCnt = 0;
-        while(connection == null) {
-            try{
-                connection = await this.getPoll().getConnection();
-            } catch(e) {
-                retryCnt++;
-                console.error(`Database connection error - retry ${retryCnt}`);
-                setTimeout(() => {
-                }, this.#timeout);
-            }
+        try{
+            connection = await this.getPoll().getConnection();
+            return connection;
+        } catch(e) {
+            retryCnt++;
+            console.error(`Database connection error - retry ${++retryCnt}`);
+            setTimeout(() => {
+                this.getConnection(retryCnt);
+            }, this.#timeout);
         }
-
-        return connection;
     }
 }
 
